@@ -6,9 +6,6 @@
         <br>
         {% for post in posts_published %}
             <div class="post">
-                    <div class="date">
-                        {{ post.published_date }}
-                    </div>
                     <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
 
                     {% if user.is_authenticated %}
@@ -19,9 +16,19 @@
                         </div>
                     {% endif %}
 
-                    <p>{{ post.text|linebreaksbr }}</p>
+                    {% with post.text|safe|truncatewords:"50" as truncated %}
+                        <p>{{ truncated }}</p>
 
+                        {% ifnotequal post.text truncated %}
+                            <a href="{% url 'post_detail' pk=post.pk %}">read more</a>
+                        {% endifnotequal %}
+                    {% endwith %}
 
+                    <hr>
+
+                    <div class="extra-info" align="right">
+                        Post by <a href="">{{ post.author.get_full_name }}</a> on {{ post.published_date }}
+                    </div>
             </div>
         {% endfor %}
     {% endif %}

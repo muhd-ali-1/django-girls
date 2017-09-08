@@ -17,9 +17,8 @@
         {% endif %}
 
         {% if post.is_published %}
-            <div class="date">
-                Published On:
-                {{ post.published_date }}
+            <div class="extra-info">
+                Published on {{ post.published_date }} by <a href="">{{ post.author.get_full_name }}</a>
             </div>
         {% endif %}
 
