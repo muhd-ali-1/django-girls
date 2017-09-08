@@ -21,8 +21,11 @@
 
                         {% ifnotequal post.text truncated %}
                             <a href="{% url 'post_detail' pk=post.pk %}">read more</a>
+                            <br>
                         {% endifnotequal %}
                     {% endwith %}
+
+                    <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
 
                     <hr>
 
@@ -33,7 +36,7 @@
         {% endfor %}
     {% endif %}
 
-    <hr>
+    <br>
 
     {% if posts_unpublished %}
         <h2><a>Unpublished Posts</a></h2>
@@ -52,6 +55,7 @@
 
                 <p>{{ post.text|linebreaksbr }}</p>
 
+                <hr>
 
             </div>
         {% endfor %}

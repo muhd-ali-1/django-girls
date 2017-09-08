@@ -1,4 +1,8 @@
-.edit-buttons {
+.comment {
+    margin: 20px 0px 20px 20px;
+}
+
+.extra-info, .edit-buttons {
     float: right;
 }
 

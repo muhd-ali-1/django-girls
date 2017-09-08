@@ -19,10 +19,35 @@
         {% if post.is_published %}
             <div class="extra-info">
                 Published on {{ post.published_date }} by <a href="">{{ post.author.get_full_name }}</a>
+                <hr>
             </div>
         {% endif %}
 
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaksbr }}</p>
     </div>
+
+
+    <h2>Comments</h2>
+    <div class="Comments">
+        {% for comment in post.comments.all %}
+            <div class="comment">
+                <div><p>{{ comment }}</p></div>
+                <div class="edit-buttons">
+                    <a class="btn btn-default" href="{% url 'comment_delete' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+                <br>
+                <hr>
+                <div class="extra-info">
+                    Comment by <a href="">{{ comment.author.get_full_name }}</a> on {{ comment.created_date }}
+                </div>
+                <br>
+            </div>
+
+        {% empty %}
+            <p>No comments on post :(</p>
+        {% endfor %}
+    </div>
+
+    <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
 {% endblock %}
