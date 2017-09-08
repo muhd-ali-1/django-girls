@@ -1,13 +1,52 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    {% for post in posts %}
-        <div class="post">
-            <div class="date">
-                {{ post.published_date }}
+    {% if posts_published %}
+        <h2><a>Published Posts</a></h2>
+        <br>
+        {% for post in posts_published %}
+            <div class="post">
+                    <div class="date">
+                        {{ post.published_date }}
+                    </div>
+                    <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+
+                    {% if user.is_authenticated %}
+                        <div class="edit-buttons">
+                            <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-default" href="{% url 'post_unpublish' pk=post.pk %}"><span class="glyphicon glyphicon-eye-close"></span></a>
+                            <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    {% endif %}
+
+                    <p>{{ post.text|linebreaksbr }}</p>
+
+
             </div>
-            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-            <p>{{ post.text|linebreaksbr }}</p>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    <hr>
+
+    {% if posts_unpublished %}
+        <h2><a>Unpublished Posts</a></h2>
+        <br>
+        {% for post in posts_unpublished %}
+            <div class="post">
+                <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+
+                {% if user.is_authenticated %}
+                    <div class="edit-buttons">
+                        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                        <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                {% endif %}
+
+                <p>{{ post.text|linebreaksbr }}</p>
+
+
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}
