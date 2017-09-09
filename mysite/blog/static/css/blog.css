@@ -1,3 +1,11 @@
+table {
+    table-layout: fixed;
+}
+
+td {
+    width: 33%;
+}
+
 .comment {
     margin: 20px 0px 20px 20px;
 }

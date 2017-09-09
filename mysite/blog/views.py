@@ -3,6 +3,8 @@ from django.utils import timezone
 from .models import Post, Comment
 from .form import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
 
 def post_list(request):
     posts_all = Post.objects.all()
@@ -79,3 +81,19 @@ def comment_delete(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # username = user.username
+            # cleaned_data = form.cleaned_data
+            # raw_password = cleaned_data['password1']
+            # user = authenticate(username=username, password=raw_password)
+            # if user is not None:
+            login(request, user)
+            return redirect('post_list')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/sign_up.html', {'form' : form})

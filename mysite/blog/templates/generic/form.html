@@ -1,0 +1,28 @@
+{% block generic_form %}
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error|escape }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error|escape }}</li>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" class="post-form">{% csrf_token %}
+        {% for field in form %}
+            <table>
+                <tr>
+                    <td>{{ field.label_tag }}&nbsp;</td>
+                    <td>{{ field }}</td>
+                </tr>
+            </table>
+        {% endfor %}
+        <button type="submit" class="save btn btn-default">Go</button>
+    </form>
+
+{% endblock %}
